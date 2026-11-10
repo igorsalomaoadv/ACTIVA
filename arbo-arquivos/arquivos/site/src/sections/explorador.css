@@ -1,0 +1,1043 @@
+/* ---------- palco ---------- */
+.explorador {
+  color: var(--creme);
+  position: relative;
+  height: 100vh;
+  height: 100svh;
+  min-height: 540px;
+}
+
+.palco {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: var(--ardosia);
+  isolation: isolate;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.fachada,
+.planta,
+.galeria {
+  position: absolute;
+  inset: 0;
+}
+
+.selo {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 22px;
+  padding: 0 9px;
+  border: 1px solid currentColor;
+  font-family: var(--ff-texto);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--oliva-claro);
+}
+
+.selo i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.selo b {
+  font-weight: 600;
+}
+
+.selo[data-status='reservado'] {
+  color: var(--areia);
+}
+
+.selo[data-status='vendido'] {
+  color: rgba(241, 236, 227, 0.42);
+}
+
+/* ---------- fachada ---------- */
+.fachada__cena {
+  position: absolute;
+  left: 0;
+  top: 0;
+  will-change: transform;
+}
+
+.fachada__base {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  pointer-events: none;
+}
+
+.fachada__torre {
+  position: absolute;
+  max-width: none;
+  pointer-events: none;
+}
+
+.fachada__andares,
+.andar {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.andar {
+  inset: auto;
+}
+
+.andar canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  opacity: 0;
+  transition: opacity 0.25s ease-out;
+}
+
+.andar__borda {
+  filter: drop-shadow(0 0 3px rgba(243, 201, 139, 0.55));
+}
+
+.andar--on canvas {
+  opacity: 1;
+}
+
+/* o zoom do clique no andar é pintado neste canvas (zoom.js); fora da transição, ele fica escondido */
+.fachada__zoom {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.fachada__veu {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(to bottom, rgba(10, 16, 26, 0.55), rgba(10, 16, 26, 0) 18%),
+    linear-gradient(to top, rgba(7, 11, 17, 0.72), rgba(7, 11, 17, 0) 34%);
+}
+
+.fio {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  overflow: visible;
+  pointer-events: none;
+  visibility: hidden;
+  z-index: 3;
+}
+
+.fio__linha {
+  fill: none;
+  stroke: rgba(241, 236, 227, 0.75);
+  stroke-width: 1;
+}
+
+.fio__ponto {
+  fill: var(--creme);
+}
+
+.card-andar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 4;
+  width: 252px;
+  padding: 16px 20px 18px;
+  background: var(--vidro);
+  border: 1px solid var(--fio);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.card-andar__topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.card-andar__topo .rotulo {
+  font-size: 10px;
+  opacity: 0.7;
+}
+
+.card-andar__num {
+  margin: 6px 0 2px;
+  font-family: var(--ff-titulo);
+  font-size: 66px;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.card-andar__num span {
+  font-size: 0.62em;
+  vertical-align: baseline;
+  position: relative;
+  top: -0.32em;
+  margin-left: 1px;
+  opacity: 0.78;
+}
+
+.card-andar__tipo {
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(241, 236, 227, 0.86);
+}
+
+.card-andar__preco {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--fio);
+  font-family: var(--ff-titulo);
+  font-size: 25px;
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--luz);
+}
+
+.card-andar__dica {
+  margin-top: 10px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.55;
+}
+
+.card-andar__ver {
+  display: none;
+}
+
+.fachada__texto {
+  position: absolute;
+  left: var(--margem);
+  bottom: calc(var(--margem) + 44px);
+  max-width: 440px;
+  pointer-events: none;
+}
+
+.fachada__texto .rotulo,
+.fachada__dica,
+.fachada__pe {
+  text-shadow: 0 1px 12px rgba(4, 7, 12, 0.7);
+}
+
+.fachada__texto .rotulo {
+  margin-bottom: 14px;
+  opacity: 0.78;
+}
+
+.fachada__texto h1 {
+  font-size: clamp(38px, 3.9vw, 58px);
+  line-height: 1;
+  text-wrap: balance;
+}
+
+.fachada__texto em {
+  color: var(--luz);
+}
+
+.fachada__dica,
+.fachada__pe {
+  position: absolute;
+  bottom: var(--margem);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+.fachada__dica {
+  left: var(--margem);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.fachada__dica i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--luz);
+  box-shadow: 0 0 0 0 rgba(243, 201, 139, 0.6);
+  animation: dica 2.2s ease-out infinite;
+}
+
+@keyframes dica {
+  0% { box-shadow: 0 0 0 0 rgba(243, 201, 139, 0.55); }
+  70%, 100% { box-shadow: 0 0 0 9px rgba(243, 201, 139, 0); }
+}
+
+.fachada__pe {
+  right: var(--margem);
+  opacity: 0.66;
+}
+
+.so-toque {
+  display: none;
+}
+
+.explorador--sobre .fachada__dica {
+  opacity: 0.45;
+  transition: opacity 0.3s;
+}
+
+.fachada__lista {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.fachada__lista:focus-within {
+  /* ainda escondida: o foco aparece no card e no andar aceso */
+  outline: none;
+}
+
+/* ---------- clipe da cobertura ---------- */
+.clipe {
+  position: absolute;
+  left: 0;
+  top: 0;
+  max-width: none;
+  z-index: 2;
+  pointer-events: none;
+  visibility: hidden;
+  will-change: transform;
+}
+
+/* ---------- planta ---------- */
+.planta {
+  background: var(--fundo-corte, #03070d);
+  z-index: 1;
+}
+
+.planta::after {
+  /* vinheta discreta para o card e a nav lerem sobre o fundo */
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(120% 90% at 35% 55%, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, 0.35));
+}
+
+/* maquete em 3D: o canvas cobre o palco inteiro (a câmera entra de frente, no lugar do andar) e o fundo é a vinheta,
+   centrada na maquete pelo planta.js. A imagem fixa do corte só aparece como reserva. */
+.planta__maquete {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.planta[data-modo='3d'] {
+  background:
+    radial-gradient(circle var(--vr, 800px) at var(--vx, 38%) var(--vy, 50%), #1d2735 4%, #1b2531 22%, #151d29 48%, #0f151e 74%, #0b1017 100%);
+}
+
+.planta[data-modo='3d'] .planta__corte {
+  visibility: hidden;
+}
+
+.planta[data-modo='3d'] .planta__vista {
+  cursor: grab;
+  touch-action: none;
+}
+
+.planta[data-modo='3d'] .planta__vista.arrastando {
+  cursor: grabbing;
+}
+
+.planta__vista,
+.planta__zoom {
+  position: absolute;
+  inset: 0;
+}
+
+.planta__zoom {
+  will-change: transform;
+}
+
+.planta__cena {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.planta__corte {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  pointer-events: none;
+}
+
+.planta__pontos {
+  position: absolute;
+  inset: 0;
+}
+
+.ponto {
+  position: absolute;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  transform: translate(-50%, -50%) scale(var(--inv, 1));
+  z-index: 1;
+}
+
+.ponto__alvo {
+  position: relative;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: var(--creme);
+  box-shadow: 0 0 0 3px rgba(15, 22, 32, 0.35), 0 2px 10px rgba(0, 0, 0, 0.4);
+  transition: transform 0.35s var(--ease), background-color 0.3s;
+}
+
+.ponto__alvo::after {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  border: 1px solid rgba(241, 236, 227, 0.7);
+  animation: ponto 2.6s ease-out infinite;
+}
+
+.ponto:nth-child(2) .ponto__alvo::after { animation-delay: 0.4s; }
+.ponto:nth-child(3) .ponto__alvo::after { animation-delay: 0.8s; }
+.ponto:nth-child(4) .ponto__alvo::after { animation-delay: 1.2s; }
+.ponto:nth-child(5) .ponto__alvo::after { animation-delay: 1.6s; }
+.ponto:nth-child(6) .ponto__alvo::after { animation-delay: 2s; }
+
+@keyframes ponto {
+  0% { transform: scale(0.5); opacity: 0; }
+  30% { opacity: 1; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+
+.ponto__rotulo {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% - 2px);
+  padding: 7px 11px;
+  background: var(--vidro);
+  border: 1px solid var(--fio);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translate(-50%, 6px);
+  transition: opacity 0.3s var(--ease), transform 0.3s var(--ease);
+  pointer-events: none;
+}
+
+.ponto:hover .ponto__alvo,
+.ponto.ativo .ponto__alvo {
+  transform: scale(1.35);
+  background: var(--luz);
+}
+
+.ponto:hover .ponto__rotulo,
+.ponto.ativo .ponto__rotulo,
+.ponto:focus-visible .ponto__rotulo {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.planta__card {
+  position: absolute;
+  right: var(--margem);
+  top: calc(var(--nav-h) + 12px);
+  bottom: 24px;
+  width: var(--card-planta);
+  height: fit-content;
+  max-height: calc(100% - var(--nav-h) - 36px);
+  margin-block: auto;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 26px 28px 28px;
+  background: rgba(9, 14, 21, 0.78);
+  border: 1px solid var(--fio);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  z-index: 2;
+  scrollbar-width: thin;
+}
+
+.planta__andar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 10.5px;
+  color: rgba(241, 236, 227, 0.75);
+}
+
+.planta__nome {
+  margin: 16px 0 18px;
+  font-size: 44px;
+  outline: none;
+}
+
+.planta__numeros {
+  display: grid;
+  grid-template-columns: 1.25fr 0.8fr 0.8fr;
+  border-block: 1px solid var(--fio);
+}
+
+.planta__numeros div {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 4px;
+  padding: 14px 10px 14px 0;
+}
+
+.planta__numeros div + div {
+  padding-left: 14px;
+  border-left: 1px solid var(--fio);
+}
+
+.planta__numeros dd {
+  font-family: var(--ff-titulo);
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.planta__numeros dt {
+  font-size: 10.5px;
+  line-height: 1.35;
+  color: rgba(241, 236, 227, 0.62);
+}
+
+.planta__preco {
+  margin-top: 18px;
+  font-family: var(--ff-titulo);
+  font-size: 30px;
+  font-weight: 400;
+  color: var(--luz);
+  line-height: 1.1;
+}
+
+.planta__texto {
+  margin-top: 10px;
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: rgba(241, 236, 227, 0.78);
+}
+
+.planta__comodos {
+  margin-top: 20px;
+  border-top: 1px solid var(--fio);
+}
+
+.planta__comodos button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--fio);
+  font-size: 13.5px;
+  font-weight: 500;
+  text-align: left;
+  transition: color 0.3s, padding 0.35s var(--ease);
+}
+
+.planta__n {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  opacity: 0.5;
+}
+
+.planta__seta {
+  margin-left: auto;
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: opacity 0.3s, transform 0.35s var(--ease);
+}
+
+.planta__comodos button:hover,
+.planta__comodos button.ativo {
+  color: var(--luz);
+  padding-left: 4px;
+}
+
+.planta__comodos button:hover .planta__seta,
+.planta__comodos button.ativo .planta__seta {
+  opacity: 1;
+  transform: none;
+}
+
+.planta__acoes {
+  display: flex;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.planta__acoes .botao {
+  flex: 1;
+  padding: 0 12px;
+}
+
+/* ---------- galeria ---------- */
+.galeria {
+  z-index: 2;
+  background: #0b0d10;
+}
+
+.galeria__fotos {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.galeria__foto {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  will-change: transform, opacity;
+}
+
+.galeria__veu {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(to bottom, rgba(8, 10, 14, 0.5), rgba(8, 10, 14, 0) 16%),
+    linear-gradient(to top, rgba(8, 10, 14, 0.66), rgba(8, 10, 14, 0) 32%);
+}
+
+.galeria__legenda {
+  position: absolute;
+  left: var(--margem);
+  bottom: var(--margem);
+  z-index: 1;
+}
+
+.galeria__onde {
+  font-size: 10.5px;
+  opacity: 0.82;
+}
+
+.galeria__nome {
+  margin: 8px 0 20px;
+  font-size: clamp(44px, 4.6vw, 68px);
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.3);
+}
+
+.galeria__abas {
+  position: absolute;
+  right: var(--margem);
+  bottom: var(--margem);
+  z-index: 1;
+  display: flex;
+  gap: 6px;
+}
+
+.galeria__abas button {
+  height: 40px;
+  padding: 0 16px;
+  background: rgba(7, 11, 17, 0.74);
+  border: 1px solid var(--fio);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.galeria__abas button:hover {
+  border-color: var(--fio-forte);
+}
+
+.galeria__abas button.ativa {
+  background: var(--creme);
+  color: var(--tinta);
+  border-color: var(--creme);
+}
+
+/* ---------- números dos andares: à esquerda da torre; posicionados pelo fachada.js ---------- */
+.fachada__numeros {
+  display: none;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.numero-andar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+  min-width: 40px;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  color: var(--creme);
+  text-shadow: 0 1px 6px rgba(4, 7, 12, 0.9);
+  cursor: pointer;
+  pointer-events: auto;
+  opacity: 0;
+  transition: opacity 0.45s ease-out, color 0.2s;
+}
+
+.numero-andar::after {
+  content: '';
+  width: 6px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.55;
+  transition: width 0.25s var(--ease), opacity 0.2s;
+}
+
+.fachada__numeros--on .numero-andar {
+  opacity: 0.92;
+  transition-delay: calc(var(--ordem) * 22ms), 0s;
+}
+
+.fachada__numeros--on .numero-andar.ativo {
+  opacity: 1;
+  color: var(--luz);
+  transition-delay: 0s;
+}
+
+.numero-andar.ativo::after {
+  width: 11px;
+  opacity: 1;
+}
+
+@media (hover: none), (pointer: coarse), (max-width: 760px) {
+  .fachada__numeros {
+    display: block;
+  }
+
+  .so-mouse {
+    display: none;
+  }
+
+  .so-toque {
+    display: inline;
+  }
+}
+
+/* ---------- mouse: o card não captura o ponteiro; toque: o card tem botão ---------- */
+@media (hover: none), (pointer: coarse) {
+  .card-andar {
+    pointer-events: auto;
+  }
+
+  .card-andar__dica {
+    display: none;
+  }
+
+  .card-andar__ver {
+    display: inline-flex;
+  }
+}
+
+@media (max-width: 1100px) and (min-width: 761px) {
+  .galeria__abas {
+    left: auto;
+    max-width: 58%;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+}
+
+/* ---------- celular ---------- */
+@media (max-width: 760px) {
+  .fachada__veu {
+    background:
+      linear-gradient(to bottom, rgba(10, 16, 26, 0.62), rgba(10, 16, 26, 0) 16%),
+      linear-gradient(to top, rgba(7, 11, 17, 0.7), rgba(7, 11, 17, 0) 22%);
+  }
+
+  .fachada__texto {
+    display: none;
+  }
+
+  .fachada__dica {
+    bottom: 18px;
+    left: 16px;
+  }
+
+  /* !important: a entrada do site (gsap.from em main.js) deixa opacity inline na dica */
+  .explorador--sobre .fachada__dica {
+    opacity: 0 !important;
+  }
+
+  .fachada__pe {
+    display: none;
+  }
+
+  .card-andar {
+    width: calc(100% - 32px);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-areas:
+      'num topo'
+      'num tipo'
+      'num preco'
+      'ver ver';
+    column-gap: 18px;
+    padding: 14px 16px 16px;
+  }
+
+  .card-andar__topo { grid-area: topo; }
+  .card-andar__num { grid-area: num; margin: 0; font-size: 62px; align-self: center; }
+  .card-andar__tipo { grid-area: tipo; font-size: 12.5px; margin-top: 4px; }
+  .card-andar__preco { grid-area: preco; margin-top: 6px; padding-top: 0; border-top: 0; font-size: 23px; }
+
+  .card-andar__ver {
+    grid-area: ver;
+    margin-top: 12px;
+    height: 44px;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: var(--creme);
+    color: var(--tinta);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .planta {
+    display: block;
+  }
+
+  .planta__vista {
+    bottom: auto;
+    height: calc(var(--nav-h) + 62vw + 12px);
+    overflow: hidden;
+  }
+
+  .planta__card {
+    top: calc(var(--nav-h) + 62vw + 12px);
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: auto;
+    height: auto;
+    max-height: none;
+    margin: 0;
+    padding: 18px 16px 0;
+    border: 0;
+    border-top: 1px solid var(--fio);
+    background: rgba(12, 18, 26, 0.94);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .planta__nome {
+    margin: 10px 0 14px;
+    font-size: 36px;
+  }
+
+  .planta__numeros dd {
+    font-size: 26px;
+  }
+
+  .planta__preco {
+    font-size: 26px;
+  }
+
+  .planta__acoes {
+    position: sticky;
+    bottom: 0;
+    margin: 8px -16px 0;
+    padding: 14px 16px calc(14px + env(safe-area-inset-bottom));
+    background: rgb(12, 18, 26);
+    border-top: 1px solid var(--fio);
+  }
+
+  .ponto {
+    width: 40px;
+    height: 40px;
+  }
+
+  .ponto__alvo {
+    width: 11px;
+    height: 11px;
+  }
+
+  .ponto__rotulo {
+    display: none;
+  }
+
+  .galeria__legenda {
+    left: 16px;
+    right: 16px;
+    bottom: 76px;
+  }
+
+  .galeria__nome {
+    margin: 6px 0 14px;
+    font-size: 42px;
+  }
+
+  .galeria__voltar {
+    height: 40px;
+    padding: 0 16px;
+  }
+
+}
+
+/* ---------- abas roláveis: celular e qualquer tela em pé ---------- */
+@media (max-width: 760px), (max-aspect-ratio: 1/1) {
+  .galeria__abas {
+    left: 0;
+    right: 0;
+    bottom: 18px;
+    max-width: none;
+    padding: 0 16px;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    overflow-x: auto;
+    scrollbar-width: none;
+    scroll-snap-type: x proximity;
+  }
+
+  .galeria__abas::-webkit-scrollbar {
+    display: none;
+  }
+
+  .galeria__abas button {
+    flex: none;
+    scroll-snap-align: start;
+  }
+}
+
+/* ---------- tela em pé (celular, tablet): a foto aparece inteira, de ponta a ponta na largura,
+   com a legenda logo abaixo e o par centrado entre a nav e as abas. A mesma regra está em FOTO_INTEIRA (index.js). ---------- */
+@media (max-aspect-ratio: 1/1) {
+  .galeria {
+    display: flex;
+    flex-direction: column;
+    padding: var(--nav-h) 0 76px;
+  }
+
+  .galeria__fotos {
+    position: relative;
+    inset: auto;
+    flex: none;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    margin-top: auto;
+  }
+
+  .galeria__foto {
+    object-fit: contain;
+  }
+
+  .galeria__veu {
+    display: none;
+  }
+
+  .galeria__legenda {
+    position: relative;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    margin-bottom: auto;
+    padding: 20px var(--margem) 0;
+  }
+}
+
+/* ---------- notebook (tela baixa): o card da planta compacta para os botões não saírem da tela ---------- */
+@media (min-width: 761px) and (max-height: 900px) {
+  .planta__card {
+    padding: 20px 24px;
+  }
+
+  .planta__nome {
+    margin: 10px 0 12px;
+    font-size: 38px;
+  }
+
+  .planta__numeros div {
+    padding-block: 10px;
+  }
+
+  .planta__preco {
+    margin-top: 14px;
+  }
+
+  .planta__texto {
+    line-height: 1.55;
+  }
+
+  .planta__comodos {
+    margin-top: 14px;
+  }
+
+  .planta__comodos button {
+    padding-block: 8px;
+  }
+
+  .planta__acoes {
+    margin-top: 16px;
+  }
+}
+
+/* ainda mais baixa: o card rola e os botões ficam presos no pé, como no celular */
+@media (min-width: 761px) and (max-height: 780px) {
+  .planta__card {
+    padding-bottom: 0;
+  }
+
+  .planta__acoes {
+    position: sticky;
+    bottom: 0;
+    margin: 12px -24px 0;
+    padding: 12px 24px 16px;
+    background: var(--breu);
+    border-top: 1px solid var(--fio);
+  }
+}

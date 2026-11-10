@@ -1,0 +1,113 @@
+.rodape {
+  padding: clamp(56px, 7vw, 96px) var(--lado) 0;
+  overflow: hidden;
+  background: var(--branco);
+  border-top: 1px solid var(--tinta-12);
+}
+
+.rodape > * {
+  max-width: var(--largura);
+  margin-inline: auto;
+}
+
+.rodape__topo {
+  display: flex;
+  justify-content: space-between;
+  gap: 48px;
+}
+
+.rodape__marca {
+  max-width: 340px;
+}
+
+.rodape__marca .logo {
+  font-size: 40px;
+}
+
+.rodape__marca p {
+  margin-top: 16px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--tinta-55);
+}
+
+.rodape__colunas {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  gap: clamp(36px, 6vw, 80px);
+}
+
+.rodape__colunas .selo-secao {
+  margin-bottom: 16px;
+}
+
+.rodape__colunas a {
+  display: block;
+  margin-top: 11px;
+  font-size: 14.5px;
+  color: var(--tinta-70);
+  transition: color 0.25s;
+}
+
+.rodape__colunas a:hover {
+  color: var(--musgo);
+}
+
+/* a marca vai de ponta a ponta e o fim da página corta a parte de baixo das letras */
+.rodape__nome {
+  max-width: none;
+  height: 0.6em;
+  margin: clamp(32px, 4vw, 56px) calc(var(--lado) * -1) 0;
+  font-family: var(--ff-titulo);
+  font-size: 62vw;
+  line-height: 0.86;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  text-align: center;
+  color: var(--musgo);
+  user-select: none;
+}
+
+.rodape__pe {
+  display: flex;
+  justify-content: space-between;
+  gap: 32px;
+  margin-top: clamp(40px, 6vw, 72px);
+  padding-top: 22px;
+  border-top: 1px solid var(--tinta-12);
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--tinta-55);
+}
+
+.rodape__pe p:first-child {
+  white-space: nowrap;
+}
+
+.rodape__pe p:last-child {
+  max-width: 620px;
+  text-align: right;
+}
+
+@media (max-width: 860px) {
+  .rodape__topo {
+    flex-direction: column;
+  }
+
+  .rodape__colunas {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .rodape__pe {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .rodape__pe p:first-child {
+    white-space: normal;
+  }
+
+  .rodape__pe p:last-child {
+    text-align: left;
+  }
+}

@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Arbo · Vila Nova Conceição, São Paulo</title>
+    <meta name="description" content="Arbo: torre residencial na Vila Nova Conceição com um apartamento por andar. Tipo de 248 m² com 3 suítes e cobertura de 316 m² com piscina. Entrega em dezembro de 2028." />
+    <meta name="theme-color" content="#ffffff" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" as="fetch" href="/img/hero/andares.json" crossorigin />
+  </head>
+  <body>
+    <div class="abertura" aria-hidden="true">
+      <p class="abertura__marca">Arbo</p>
+      <span class="abertura__linha"><i></i></span>
+    </div>
+
+    <header class="nav">
+      <a class="nav__pilula nav__pilula--marca vidro" href="#explorador" aria-label="Arbo, início">
+        <span class="logo">Arbo</span>
+        <span class="nav__local">Vila Nova Conceição · São Paulo</span>
+      </a>
+      <div class="nav__pilula nav__pilula--links vidro">
+        <nav class="nav__links" aria-label="Seções">
+          <a href="#sobre">Empreendimento</a>
+          <a href="#apartamento">Apartamento</a>
+          <a href="#cobertura">Cobertura</a>
+        </nav>
+        <a class="botao botao--creme nav__cta" href="#contato">Agendar visita</a>
+      </div>
+    </header>
+
+    <main>
+      <!-- 1 · Explorador: fachada → planta → galeria, no mesmo palco -->
+      <section class="explorador" id="explorador" data-estado="fachada" aria-label="Explorador do prédio">
+        <div class="palco">
+          <div class="fachada">
+            <div class="fachada__cena">
+              <img class="fachada__base" alt="Torre Arbo à noite, na hora azul, vista da Rua das Tipuanas: lajes finas em balanço, jardineiras em zigue-zague e a lâmina de basalto à direita" draggable="false" />
+              <div class="fachada__andares"></div>
+            </div>
+            <!-- o zoom do clique no andar é pintado aqui, com a placa da torre em alta (zoom.js) -->
+            <canvas class="fachada__zoom" aria-hidden="true"></canvas>
+            <div class="fachada__veu" aria-hidden="true"></div>
+            <svg class="fio" aria-hidden="true"><path class="fio__linha" /><circle class="fio__ponto" r="3" /></svg>
+            <div class="card-andar" aria-live="polite">
+              <div class="card-andar__topo">
+                <span class="rotulo">Andar</span>
+                <span class="selo"><i></i><b></b></span>
+              </div>
+              <p class="card-andar__num"></p>
+              <p class="card-andar__tipo"></p>
+              <p class="card-andar__preco"></p>
+              <button class="card-andar__ver" type="button">Ver planta <span aria-hidden="true">→</span></button>
+              <p class="card-andar__dica">Clique para ver a planta</p>
+            </div>
+            <div class="fachada__texto">
+              <p class="rotulo">Lançamento · Rua das Tipuanas, 410</p>
+              <h1>Vinte andares, <em>um apartamento</em> em cada.</h1>
+            </div>
+            <p class="fachada__dica"><i></i><span class="so-mouse">Passe o mouse num andar</span><span class="so-toque">Clique em um andar</span></p>
+            <p class="fachada__pe">Entrega dez/2028 <span aria-hidden="true">·</span> Role para o lançamento <span aria-hidden="true">↓</span></p>
+            <div class="fachada__numeros" aria-hidden="true"></div>
+            <ol class="fachada__lista" aria-label="Andares"></ol>
+          </div>
+
+          <video class="clipe" muted playsinline preload="none" aria-hidden="true"></video>
+
+          <div class="planta" aria-hidden="true">
+            <canvas class="planta__maquete" aria-hidden="true"></canvas>
+            <div class="planta__vista">
+              <div class="planta__zoom">
+                <div class="planta__cena">
+                  <img class="planta__corte" alt="" draggable="false" />
+                  <div class="planta__pontos"></div>
+                </div>
+              </div>
+            </div>
+            <aside class="planta__card" data-lenis-prevent>
+              <p class="rotulo planta__andar"></p>
+              <h2 class="planta__nome" tabindex="-1"></h2>
+              <dl class="planta__numeros"></dl>
+              <p class="planta__preco"></p>
+              <p class="planta__texto"></p>
+              <ul class="planta__comodos"></ul>
+              <div class="planta__acoes">
+                <button class="botao botao--creme" type="button" data-acao="fotos">Ver fotos</button>
+                <button class="botao botao--fio" type="button" data-acao="fachada">Voltar à fachada</button>
+              </div>
+            </aside>
+          </div>
+
+          <div class="galeria" aria-hidden="true">
+            <div class="galeria__fotos">
+              <img class="galeria__foto" alt="" draggable="false" />
+              <img class="galeria__foto" alt="" draggable="false" />
+            </div>
+            <div class="galeria__veu" aria-hidden="true"></div>
+            <div class="galeria__legenda">
+              <p class="rotulo galeria__onde"></p>
+              <h2 class="galeria__nome"></h2>
+              <button class="botao botao--escuro galeria__voltar" type="button"><span aria-hidden="true">←</span> Voltar à planta</button>
+            </div>
+            <div class="galeria__abas" role="tablist" aria-label="Cômodos"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2 · O empreendimento: a frase -->
+      <section class="sobre" id="sobre">
+        <p class="selo-secao" data-revela="y:20,dur:0.6">O empreendimento</p>
+        <h2 data-revela="y:40,dur:0.8,atraso:0.1">
+          Vinte andares sobre a Rua das Tipuanas, <em>um apartamento em cada</em> e a sala <em>voltada para o norte.</em>
+        </h2>
+      </section>
+
+      <!-- 3 · A fachada em destaque -->
+      <section class="destaque" id="predio">
+        <figure class="destaque__quadro" data-revela="y:60,dur:0.9">
+          <img src="/img/predio/fachada-1920.webp" srcset="/img/predio/fachada-960.webp 960w, /img/predio/fachada-1920.webp 1920w" sizes="(max-width: 1240px) 100vw, 1160px" alt="Andares da Arbo acesos à noite, com as lajes em balanço, as jardineiras e a lâmina de pedra" width="1920" height="1080" loading="lazy" />
+          <figcaption class="destaque__pe">
+            <div class="vidro destaque__nota">
+              <p class="selo-secao">A arquitetura</p>
+              <p>Cada laje avança 2,4 m sobre a rua e forma uma varanda de ponta a ponta. As jardineiras trocam de canto a cada andar e desenham um zigue-zague na fachada, ao lado da lâmina de basalto que sobe 7 m acima da cobertura.</p>
+            </div>
+            <a class="botao botao--vidro" href="#explorador">Explorar o prédio</a>
+          </figcaption>
+        </figure>
+      </section>
+
+      <!-- 4 · O apartamento -->
+      <section class="residencia" id="apartamento">
+        <header class="residencia__topo">
+          <h2 data-revela="y:40,dur:0.8">Apartamento <em>tipo</em></h2>
+          <p class="selo-secao" data-revela="y:20,dur:0.6,atraso:0.1">2º ao 20º andar · 19 unidades</p>
+        </header>
+        <div class="residencia__grade">
+          <figure class="residencia__foto" data-revela="x:-40,dur:0.8,atraso:0.1">
+            <img src="/img/tipo/living-1672.webp" srcset="/img/tipo/living-960.webp 960w, /img/tipo/living-1672.webp 1672w" sizes="(max-width: 860px) 100vw, 50vw" alt="Living do apartamento tipo, com o sofá orgânico, a lareira linear e a vista da cidade ao entardecer" width="1672" height="941" loading="lazy" />
+          </figure>
+          <div class="residencia__texto" data-revela="x:40,dur:0.8,atraso:0.2">
+            <div>
+              <p class="selo-secao">A planta</p>
+              <p>Um apartamento por andar, com o living de 14 m de frente aberto para a varanda gourmet de ponta a ponta. A suíte master também abre para a varanda; as outras suítes e o home office ficam no fundo, longe da rua.</p>
+            </div>
+            <hr />
+            <div>
+              <p class="selo-secao">Os acabamentos</p>
+              <p>Piso de madeira nas suítes e travertino nas áreas sociais, cozinha com ilha de mármore e banho master em azulejo verde, com cuba de travertino.</p>
+            </div>
+            <dl class="residencia__nums">
+              <div><dd>248 m²</dd><dt>área privativa</dt></div>
+              <div><dd>3</dd><dt>suítes</dt></div>
+              <div><dd>4</dd><dt>vagas</dt></div>
+            </dl>
+            <div class="residencia__pe">
+              <button class="botao botao--musgo" type="button" data-explorar="14">Ver em 3D</button>
+              <span>A partir de <b>R$ 9,4 mi</b></span>
+            </div>
+          </div>
+        </div>
+        <ul class="residencia__ambientes">
+          <li data-revela="y:50,dur:0.8">
+            <figure><img src="/img/tipo/cozinha-960.webp" alt="Cozinha aberta com ilha de mármore e banquetas verde-oliva" width="960" height="540" loading="lazy" /></figure>
+            <p>Cozinha</p>
+          </li>
+          <li data-revela="y:50,dur:0.8,atraso:0.15">
+            <figure><img src="/img/tipo/suite_master-960.webp" alt="Suíte master com painel de madeira e vista pela janela" width="960" height="540" loading="lazy" /></figure>
+            <p>Suíte master</p>
+          </li>
+          <li data-revela="y:50,dur:0.8,atraso:0.3">
+            <figure><img src="/img/tipo/varanda-960.webp" alt="Varanda gourmet de ponta a ponta, com mesa e churrasqueira" width="960" height="540" loading="lazy" /></figure>
+            <p>Varanda gourmet</p>
+          </li>
+        </ul>
+      </section>
+
+      <!-- 5 · A cobertura -->
+      <section class="residencia residencia--invertida" id="cobertura">
+        <header class="residencia__topo">
+          <h2 data-revela="y:40,dur:0.8">A <em>cobertura</em></h2>
+          <p class="selo-secao" data-revela="y:20,dur:0.6,atraso:0.1">21º andar · unidade única</p>
+        </header>
+        <div class="residencia__grade">
+          <figure class="residencia__foto" data-revela="x:40,dur:0.8,atraso:0.1">
+            <img src="/img/cobertura/terraco-1672.webp" srcset="/img/cobertura/terraco-960.webp 960w, /img/cobertura/terraco-1672.webp 1672w" sizes="(max-width: 860px) 100vw, 50vw" alt="Terraço da cobertura ao anoitecer, com a piscina de borda, as espreguiçadeiras e a pérgola" width="1672" height="941" loading="lazy" />
+          </figure>
+          <div class="residencia__texto" data-revela="x:-40,dur:0.8,atraso:0.2">
+            <div>
+              <p class="selo-secao">O terraço</p>
+              <p>A última laje, recuada da fachada. São 100 m² descobertos, com piscina de borda de 9 m, deck de madeira e pérgola sobre o estar externo, abertos para a cidade.</p>
+            </div>
+            <hr />
+            <div>
+              <p class="selo-secao">O interior</p>
+              <p>Planta em L com living de canto, envidraçado em duas faces. Cozinha em nogueira com ilha de pedra preta e duas suítes amplas, com banheira solta de frente para o vidro.</p>
+            </div>
+            <dl class="residencia__nums">
+              <div><dd>316 m²</dd><dt>216 internos + 100 de terraço</dt></div>
+              <div><dd>2</dd><dt>suítes</dt></div>
+              <div><dd>6</dd><dt>vagas</dt></div>
+            </dl>
+            <div class="residencia__pe">
+              <button class="botao botao--musgo" type="button" data-explorar="21">Ver em 3D</button>
+              <span><b>Sob consulta</b></span>
+            </div>
+          </div>
+        </div>
+        <ul class="residencia__ambientes">
+          <li data-revela="y:50,dur:0.8">
+            <figure><img src="/img/cobertura/living-960.webp" alt="Living de canto da cobertura, envidraçado em duas faces" width="960" height="540" loading="lazy" /></figure>
+            <p>Living de canto</p>
+          </li>
+          <li data-revela="y:50,dur:0.8,atraso:0.15">
+            <figure><img src="/img/cobertura/cozinha-960.webp" alt="Cozinha da cobertura em nogueira com ilha de pedra preta" width="960" height="540" loading="lazy" /></figure>
+            <p>Cozinha</p>
+          </li>
+          <li data-revela="y:50,dur:0.8,atraso:0.3">
+            <figure><img src="/img/cobertura/banho_master-960.webp" alt="Banho master da cobertura com banheira solta" width="960" height="540" loading="lazy" /></figure>
+            <p>Banho master</p>
+          </li>
+        </ul>
+      </section>
+
+      <!-- 6 · Áreas comuns -->
+      <section class="lazer" id="lazer">
+        <header class="lazer__topo" data-revela="y:30,dur:0.7">
+          <h2>Para quem mora</h2>
+          <p class="selo-secao">Térreo e 1º andar</p>
+        </header>
+        <div class="lazer__grade">
+          <article class="vidro lazer__card" data-revela="y:50,dur:0.8">
+            <figure><img src="/img/lazer/lobby-960.webp" srcset="/img/lazer/lobby-960.webp 960w, /img/lazer/lobby-1672.webp 1672w" sizes="(max-width: 860px) 100vw, 50vw" alt="Lobby com pé-direito duplo e jardim atrás do pano de vidro" width="960" height="540" loading="lazy" /></figure>
+            <div>
+              <p class="selo-secao">Térreo</p>
+              <h3>Lobby com pé-direito de 6 m</h3>
+              <p>Recepção com portaria 24 h, sala de estar para visitas e um jardim tropical atrás do pano de vidro.</p>
+            </div>
+          </article>
+          <article class="vidro lazer__card" data-revela="y:50,dur:0.8,atraso:0.15">
+            <figure><img src="/img/lazer/terraco-960.webp" srcset="/img/lazer/terraco-960.webp 960w, /img/lazer/terraco-1672.webp 1672w" sizes="(max-width: 860px) 100vw, 50vw" alt="Terraço de lazer sobre o embasamento, com pérgola de madeira e piscina" width="960" height="540" loading="lazy" /></figure>
+            <div>
+              <p class="selo-secao">1º andar</p>
+              <h3>Terraço sobre o embasamento</h3>
+              <p>Pérgola de madeira com espaço gourmet, piscina de 18 m, academia voltada para o jardim e salão de festas para 60 pessoas.</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- 7 · Informações do empreendimento -->
+      <section class="ficha" id="ficha">
+        <h2 data-revela="y:40,dur:0.8">O empreendimento <em>em números</em></h2>
+        <ul class="ficha__numeros">
+          <li data-revela="y:20,dur:0.6"><b>22</b><span>pavimentos</span></li>
+          <li data-revela="y:20,dur:0.6,atraso:0.08"><b>20</b><span>unidades, uma por andar</span></li>
+          <li data-revela="y:20,dur:0.6,atraso:0.16"><b>1.480 m²</b><span>de terreno</span></li>
+          <li data-revela="y:20,dur:0.6,atraso:0.24"><b>dez/2028</b><span>entrega prevista</span></li>
+        </ul>
+        <dl class="ficha__lista" data-revela="y:30,dur:0.7">
+          <div><dt>Endereço</dt><dd>Rua das Tipuanas, 410 · Vila Nova Conceição, São Paulo</dd></div>
+          <div><dt>Incorporação</dt><dd>Seiva Incorporadora</dd></div>
+          <div><dt>Arquitetura</dt><dd>Estúdio Linde</dd></div>
+          <div><dt>Paisagismo</dt><dd>Ateliê Folha Miúda</dd></div>
+          <div><dt>Interiores das áreas comuns</dt><dd>Bruma Interiores</dd></div>
+          <div><dt>Pavimentos</dt><dd>Térreo, lazer, 19 tipo e cobertura</dd></div>
+          <div><dt>Vagas</dt><dd>4 a 6 por unidade</dd></div>
+          <div><dt>Elevadores</dt><dd>2 sociais com hall privativo e 1 de serviço</dd></div>
+        </dl>
+      </section>
+
+      <!-- 8 · Contato -->
+      <section class="contato" id="contato">
+        <div class="contato__texto">
+          <p class="selo-secao" data-revela="y:20,dur:0.6">Visita</p>
+          <h2 data-revela="y:40,dur:0.8">Agende uma <em>visita</em> ao decorado.</h2>
+          <p data-revela="y:30,dur:0.7,atraso:0.1">O apartamento decorado fica no estande, na própria Rua das Tipuanas. Atendemos com hora marcada, de segunda a sábado, das 9h às 19h.</p>
+          <p class="contato__tel" data-revela="y:30,dur:0.7,atraso:0.15"><a href="tel:+551130410410">(11) 3041-0410</a></p>
+        </div>
+        <form class="form" novalidate data-revela="y:40,dur:0.8,atraso:0.1">
+          <label><span>Nome</span><input name="nome" autocomplete="name" required /></label>
+          <label><span>Telefone</span><input name="telefone" type="tel" autocomplete="tel" inputmode="tel" required /></label>
+          <label><span>E-mail</span><input name="email" type="email" autocomplete="email" required /></label>
+          <fieldset>
+            <legend>Tipologia</legend>
+            <label class="form__opcao"><input type="radio" name="tipologia" value="tipo" checked /><span>Tipo · 248 m²</span></label>
+            <label class="form__opcao"><input type="radio" name="tipologia" value="cobertura" /><span>Cobertura · 316 m²</span></label>
+          </fieldset>
+          <button class="botao botao--musgo form__enviar" type="submit">Pedir horário</button>
+          <p class="form__aviso" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+    </main>
+
+    <footer class="rodape">
+      <div class="rodape__topo">
+        <div class="rodape__marca">
+          <a class="logo logo--musgo" href="#explorador" aria-label="Arbo, início">Arbo</a>
+          <p>Torre residencial na Vila Nova Conceição, com um apartamento por andar. Entrega em dezembro de 2028.</p>
+        </div>
+        <nav class="rodape__colunas" aria-label="Rodapé">
+          <div>
+            <p class="selo-secao">Residências</p>
+            <a href="#apartamento">Apartamento tipo</a>
+            <a href="#cobertura">Cobertura</a>
+            <a href="#explorador">Explorar o prédio</a>
+          </div>
+          <div>
+            <p class="selo-secao">Empreendimento</p>
+            <a href="#predio">A arquitetura</a>
+            <a href="#lazer">Áreas comuns</a>
+            <a href="#ficha">Ficha técnica</a>
+          </div>
+          <div>
+            <p class="selo-secao">Contato</p>
+            <a href="#contato">Agendar visita</a>
+            <a href="tel:+551130410410">(11) 3041-0410</a>
+          </div>
+        </nav>
+      </div>
+      <div class="rodape__pe">
+        <p>© 2026 Arbo · Incorporação Seiva · Arquitetura Estúdio Linde</p>
+        <p>Imagens meramente ilustrativas. Memorial de incorporação registrado sob o nº 00.000 no 00º Cartório de Registro de Imóveis de São Paulo. Preços e disponibilidade sujeitos a alteração.</p>
+      </div>
+      <p class="rodape__nome" aria-hidden="true">Arbo</p>
+    </footer>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

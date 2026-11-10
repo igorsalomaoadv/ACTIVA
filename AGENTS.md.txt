@@ -1,0 +1,94 @@
+# Guia do projeto — Arbo
+
+Landing page de lançamento da Arbo, uma torre residencial fictícia em São Paulo (vinte andares, um apartamento por andar). Vite sem framework, GSAP (ScrollTrigger), Lenis e Three.js. **O prédio é a interface:** a primeira tela é a torre à noite; cada andar acende no hover e, no clique, vira a maquete 3D do apartamento, de onde a câmera mergulha em cada cômodo até a foto. Abaixo do explorador, uma página de lançamento clara e calma. A régua é site de premiação: se uma transição parece "ok", ainda não está pronta.
+
+## Arquitetura
+- **O explorador** (`src/motion/explorador/index.js`) tem três estados no mesmo palco: `fachada`, `planta` e `galeria` (`data-estado` na seção). Cada transição é um evento com tempo fixo, com a página travada (`html.travado`, Lenis parado); nada segue o scroll.
+  - `fachada.js`: o passe base no `<img>`, o recorte do passe aceso por andar (a máscara sai do mapa de IDs `public/img/hero/ids-*.png`: R = andar, G = 0, B = 255), o contorno, o card com fio e os números. O hit-test é um acesso direto a um `Uint8Array` do tamanho da imagem.
+  - `zoom.js`: o zoom do clique, pintado num canvas quadro a quadro com a **placa** (a região da torre renderizada 2×, 4× e 8× com a mesma câmera, em faixas: `public/img/placa/`, descritas no `assets.json`). Em canvas, e não em CSS, porque um bloco com `will-change: transform` é rasterizado uma vez e o `scale()` estica a textura.
+  - `maquete3d.js`: o `.glb` assado no Blender, ao vivo no Three.js, com material sem luz (o atlas já traz a luz do Cycles no tom AgX). A câmera é a do Blender (lente, sensor de 36 mm, shift) e as poses vêm de `public/modelos/<tipologia>.json`. Importado sob demanda: o Three não entra no carregamento inicial.
+  - `planta.js` (o corte, os pontos dos cômodos de `public/img/hotspots.json` e o card), `galeria.js` (duas `<img>` que se alternam para o dissolve) e `enquadra.js` (as contas de enquadramento: cada camada é um bloco do tamanho natural da imagem com uma transformação única `{x, y, s}`, e tudo dentro dele fica alinhado pixel a pixel).
+- **Dados** das unidades em `src/data/unidades.js`: status por andar, tipologias, preços (o 2º parte de R$ 9,4 mi e cada andar acima vale ~1,2% mais), cômodos e textos.
+- **O resto da página** são `<section>` comuns; `src/motion/revela.js` faz as entradas (`data-revela="y:40,dur:0.8,atraso:0.1"` no próprio HTML), `nav.js` as âncoras e a nav clara, `contato.js` o formulário sem backend (simula o envio; para ligar num serviço real, troque o `setTimeout` por um `fetch`).
+- **Reservas** já no código: sem placa, o zoom pinta o hero (fica macio); sem o vídeo, a cobertura usa o mergulho; sem WebGL, com movimento reduzido ou com o `.glb` ausente, a planta é a imagem fixa do corte inclinada em CSS 3D.
+- `fonte/` não entra no site: são os scripts que refazem o prédio (ver "Personalizar").
+
+## Design system
+- Tokens em `src/styles/tokens.css`, nunca cores soltas no CSS das seções.
+  - A noite: `--ardosia #0f1620`, `--ardosia-2 #1a2430`, `--ardosia-3 #243140`, `--breu #070b11`.
+  - Luz e materiais: `--luz #f3c98b`, `--oliva #6f7350`, `--travertino #d9cbb4`, `--areia #e2cfa8`, `--creme #f1ece3`, `--papel #efe9df`.
+  - A marca nas seções claras: `--branco`, `--musgo #4c5b34` (botões e logo), `--tinta #12150f`.
+  - Vidro escuro `--vidro rgba(12,18,26,.84)`, fios `--fio` e `--fio-forte`.
+- **Tipos:** Instrument Serif 400 e itálico (títulos, números, a marca; o itálico marca a palavra que importa: "*um apartamento* em cada") e Inter 400/500/600 (o resto). Só os subconjuntos latin e latin-ext (`src/styles/fonts.css`).
+- Escuro no explorador, claro na página. Botões em pílula: creme, musgo, vidro, fio.
+
+## Regras de motion
+- Curvas: `--ease cubic-bezier(0.22,1,0.36,1)` e `--ease-io cubic-bezier(0.65,0,0.35,1)`; no JS, as do GSAP (`power2`, `power3`).
+- **Nada corta:** cada passo dissolve no seguinte no mesmo lugar da tela (a laje sobre a laje, a maquete na foto, o último quadro do vídeo na maquete).
+- O mergulho no cômodo termina exatamente no olhar da foto: a câmera da foto e a do `.json` são a mesma.
+- Sem `filter: blur` animado em área grande, sem clarão.
+- `prefers-reduced-motion`: só fades, planta fixa, sem vídeo.
+
+## Como checar
+1. `npm run dev` (porta 5197); olhar a 1456 × 840 e a 390 × 844, no Chrome e no Safari.
+2. Recarregar: a abertura escura some e a fachada recua do zoom leve do hall.
+3. Passar o mouse pelos andares: só o andar sob o cursor acende, o contorno não vaza, o card segue com o fio. No celular: o primeiro toque mostra o card, o segundo abre.
+4. Clicar no 14º: o zoom fica nítido até perto, a laje dissolve na maquete na mesma posição, a câmera sobe até o corte e o card entra. Arrastar a maquete.
+5. "Ver fotos" e cada aba: o mergulho termina no olhar da foto. Voltar à planta e à fachada.
+6. Clicar no 21º: o vídeo sai do quadro do hero e dissolve na maquete sem teto, sem salto.
+7. "Ver em 3D" das seções do apartamento e da cobertura abre o explorador na planta; os links da nav fecham o explorador antes de rolar.
+8. Movimento reduzido; console sem erros; `npm run build` passa.
+
+## Personalizar
+
+O site chega como a demo da Arbo, um empreendimento inventado. Esta seção vale sempre que a pessoa pedir uma mudança, hoje ou daqui a meses: trocar a marca, um texto, um preço, uma foto, o prédio, ou levar uma peça para outro site.
+
+### Antes de mexer
+- Se ainda não sabe o objetivo, pergunte qual destes é (uma pergunta por vez, em linguagem simples):
+  1. **Ver a demo funcionando** como está, para trocar depois.
+  2. **O site do meu empreendimento**, com esta estrutura e estas animações.
+  3. **Só algumas peças** (o explorador da fachada, a maquete 3D, a galeria) para um site que já existe.
+- Para o caminho 2, pergunte o que ainda não sabe: nome, endereço, número de andares e de unidades por andar, tipologias (área, suítes, vagas, preço ou "sob consulta"), status de cada unidade, incorporadora, arquitetura, paisagismo, contato e **que material já tem** (renders da fachada, plantas humanizadas, fotos do decorado, o modelo 3D do arquiteto, logo). Não peça tudo de uma vez.
+- Para o caminho 3, pergunte quais peças e onde fica o site de destino. Leia o código do destino antes: se for React, Next ou outro framework, adapte os módulos de `src/motion/explorador/` em vez de colar o HTML desta página.
+- Diga com clareza, sem rodeio: **a fachada, o mapa dos andares, a torre em alta, a maquete 3D, as fotos dos cômodos e o voo da cobertura mostram o prédio da demo e não se editam por prompt.** Ninguém "põe o meu prédio na imagem" editando a atual. Ou entram imagens novas do prédio da pessoa, no formato certo, ou a cena 3D é refeita no Blender.
+
+### O que muda e onde
+| o quê | onde | precisa de material novo? |
+|---|---|---|
+| Nome, endereço, textos, títulos, ficha, rodapé, telefone, aviso legal | `index.html` (o `<title>` e a `description` também) | não (dado que a pessoa não informou fica `[preencher]`) |
+| Preço, status de cada andar, área, suítes, vagas, texto e cômodos de cada tipologia | `src/data/unidades.js` (`STATUS_ANDAR`, `TIPOLOGIAS`, `precoTipo`); os números das seções no `index.html` | não |
+| Cores e tipos | `src/styles/tokens.css` e `src/styles/fonts.css` | não |
+| Formulário de contato | `src/motion/contato.js` (troque o `setTimeout` por um `fetch` para o serviço da pessoa) | não |
+| Fotos dos cômodos | `public/img/<tipologia>/<comodo>-1672.webp` e `-960.webp` (16:9) | sim: fotos ou renders de cada ambiente |
+| Áreas comuns e destaque da fachada | `public/img/lazer/*-1672|960.webp`, `public/img/predio/fachada-1920|960.webp` | sim |
+| Fachada do hero e o hover por andar | `public/img/hero/` (base, acesa, ids, `andares.json`) | sim: uma imagem 2560×1440 do prédio + o mapa dos andares |
+| Torre em alta do zoom | `public/img/placa/`, `public/img/hero/torre-*.webp`, `assets.json` | sim (render 3D); opcional |
+| Maquete 3D e a planta | `public/modelos/*.glb` e `*.json`, `public/img/<tipologia>/corte-*.webp`, `public/img/hotspots.json` | sim (modelo 3D); sem ela, a planta fixa |
+| Voo da cobertura | `public/video/cobertura-*.mp4` | sim (render 3D); opcional |
+| Número de andares | `src/data/unidades.js` (o laço de 2 a 21 e a cobertura) e o mapa dos andares | sim, se o prédio muda |
+| Tirar uma seção da página | o HTML dela e o import do CSS em `src/main.js` | não |
+
+### Material da pessoa
+Para cada peça visual, ofereça estes caminhos, do mais simples para o mais trabalhoso, e deixe a pessoa escolher:
+1. **Manter a da demo por enquanto** e trocar o resto. O explorador continua funcionando com o prédio da Arbo até chegar o material.
+2. **Usar o que ela já tem** (os renders e as fotos que toda incorporadora encomenda para o lançamento):
+   - fotos dos cômodos e das áreas comuns: 16:9, 1672 px de largura ou mais; salve em `fonte/render/fotos/<tipologia>/<comodo>.png` (ou `lazer/`, `predio/fachada.png`) e rode `npm run otimiza`;
+   - fachada: um render 2560×1440 do prédio (ou maior, cortado em 16:9) em `fonte/render/hero/base.png` e `acesa.png` (a mesma imagem, ou uma versão com todos os andares acesos), e o **mapa dos andares pintado à mão** em `fonte/render/hero/ids.png`: cada andar preenchido com a cor `rgb(<andar>, 0, 255)`, o resto preto, sem suavizar a borda; depois `npm run andares` e `npm run otimiza`;
+   - planta: uma planta humanizada em 3D vista de cima, 16:9, em `fonte/render/<tipologia>/corte.png`, com os pontos dos cômodos ajustados à mão em `public/img/hotspots.json` (fração da imagem) e sem os `.glb` (a planta fixa assume);
+   - sem a placa e sem o voo: tire `placa`, `torre` e `video` do `public/img/assets.json`.
+   Foto escura, fora de 16:9 ou com outra planta (o decorado de outro empreendimento) estraga a cena: diga isso e proponha o caminho 3.
+3. **Refazer o prédio em 3D**, como a demo foi feita, seguindo `fonte/LEIA.md` passo a passo. Antes de começar, diga à pessoa, com estas palavras ou parecidas:
+   - precisa do **Blender 5.2 LTS** (gratuito, em blender.org/download), instalado no computador dela; o `fonte/LEIA.md` mostra a instalação no Mac, no Windows e no Linux, e `npm run blender -- cena_exemplo.py` confere que está tudo certo;
+   - precisa do modelo 3D do prédio (o do arquiteto, importado em FBX, OBJ, glTF ou IFC, ou modelado), organizado na convenção da cena (a tabela do `LEIA.md`; a cena de exemplo mostra como);
+   - **renderizar é pesado: dependendo do computador, o conjunto leva horas, e num notebook sem placa de vídeo pode passar de um dia.** A conta: o tempo do primeiro passe do hero multiplicado por uns 100. Por isso tudo é feito primeiro com poucas amostras, para acertar câmera e luz, e só no fim com a qualidade final;
+   - as fotos dos cômodos saem do render, refeitas como fotografia num gerador de imagem (o prompt-base está em `fonte/fotos.prompt.txt`).
+   Siga a ordem do `LEIA.md` (instalar → modelo → fachada → maquetes → fotos → maquete 3D → voo → ajustes no código → conferir), rodando você os comandos `npm run ...` quando a pessoa pedir, e mostrando o resultado de cada passo antes de seguir. Os renders longos rodam no computador dela: avise quanto tempo o teste com poucas amostras levou e a estimativa do definitivo antes de começar.
+4. **Sem peça nova**: cada reserva do site (planta fixa, zoom sem placa, cobertura sem voo) é uma versão completa, sem buraco na página.
+
+### Regras ao trocar
+- As regras de motion continuam valendo: nada corta, o mergulho termina no olhar da foto, tudo por tempo.
+- Uma foto de cômodo nova tem de bater com a câmera daquele cômodo em `public/modelos/<tipologia>.json`; se a foto é de outro ângulo e a maquete é a da demo, o dissolve no fim do mergulho fica errado. Sem maquete nova, use a planta fixa (sem `.glb`): nela, a imagem do corte aproxima do ponto do cômodo e dissolve na foto, sem exigir o mesmo ângulo.
+- O mapa dos andares não pode ter borda suavizada nem cor fora do código (o `npm run andares` avisa).
+- Mudou a posição da torre no quadro, o número de andares ou a área da maquete no corte: ajuste as constantes da tabela 7 do `fonte/LEIA.md` (`TORRE_X`, `HALL`, `FOCO`, `LARGURA_FRENTE`, `CLIPE_T0`/`CLIPE_T1`).
+- Nada de preço, área, número de registro de incorporação, CRECI ou depoimento inventado como se fosse do empreendimento: o que a pessoa não informou fica `[preencher]` e entra na lista do fim. O aviso "Imagens meramente ilustrativas" e o número do memorial de incorporação são obrigatórios num lançamento real: peça o número à pessoa.
+- Depois de cada troca, rode o "Como checar" de novo nos trechos que mudaram, e no fim liste para a pessoa o que ainda é da demo (imagens, textos, o prédio) e o que falta ela mandar.

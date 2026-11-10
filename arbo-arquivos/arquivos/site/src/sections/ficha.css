@@ -1,0 +1,88 @@
+.ficha {
+  max-width: calc(var(--largura) + 2 * var(--lado));
+  margin: 0 auto;
+  padding: clamp(56px, 8vw, 104px) var(--lado);
+}
+
+.ficha h2 {
+  margin-bottom: clamp(32px, 4.5vw, 56px);
+  font-size: clamp(32px, 4.4vw, 52px);
+}
+
+.ficha h2 em {
+  color: var(--musgo);
+}
+
+.ficha__numeros {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-block: 1px solid var(--tinta-12);
+}
+
+.ficha__numeros li {
+  padding: clamp(20px, 2.6vw, 32px) 16px clamp(20px, 2.6vw, 32px) 0;
+}
+
+.ficha__numeros li + li {
+  padding-left: clamp(16px, 2vw, 28px);
+  border-left: 1px solid var(--tinta-12);
+}
+
+.ficha__numeros b {
+  display: block;
+  font-family: var(--ff-titulo);
+  font-size: clamp(38px, 4.8vw, 62px);
+  font-weight: 400;
+  line-height: 1.05;
+}
+
+.ficha__numeros span {
+  display: block;
+  margin-top: 6px;
+  font-size: 14px;
+  color: var(--tinta-55);
+}
+
+.ficha__lista {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: clamp(32px, 5vw, 72px);
+  margin-top: clamp(24px, 3vw, 40px);
+}
+
+.ficha__lista div {
+  display: grid;
+  grid-template-columns: minmax(120px, 0.8fr) 1.2fr;
+  gap: 16px;
+  padding: 15px 0;
+  border-bottom: 1px solid var(--tinta-12);
+}
+
+.ficha__lista dt {
+  font-size: 14px;
+  color: var(--tinta-55);
+}
+
+.ficha__lista dd {
+  margin: 0;
+  font-size: 15px;
+}
+
+@media (max-width: 860px) {
+  .ficha__numeros {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .ficha__numeros li:nth-child(3) {
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .ficha__numeros li:nth-child(n + 3) {
+    border-top: 1px solid var(--tinta-12);
+  }
+
+  .ficha__lista {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,137 @@
+{
+ "fotos": {
+  "tipo": {
+   "living": "foto",
+   "cozinha": "foto",
+   "suite_master": "foto",
+   "banho_master": "foto",
+   "home_office": "foto",
+   "varanda": "foto"
+  },
+  "cobertura": {
+   "living": "foto",
+   "terraco": "foto",
+   "cozinha": "foto",
+   "suite_master": "foto",
+   "banho_master": "foto"
+  }
+ },
+ "lazer": {
+  "lobby": true,
+  "terraco": true
+ },
+ "video": {
+  "ida": "/video/cobertura-ida.mp4",
+  "volta": "/video/cobertura-volta.mp4"
+ },
+ "placa": {
+  "regiao": [
+   1030,
+   120,
+   1550,
+   1320
+  ],
+  "niveis": {
+   "2": {
+    "arquivo": "/img/placa/2x-{passe}-{i}.webp",
+    "faixas": [
+     {
+      "x0": 1030,
+      "y0": 120,
+      "y1": 360
+     },
+     {
+      "x0": 1030,
+      "y0": 360,
+      "y1": 600
+     },
+     {
+      "x0": 1030,
+      "y0": 600,
+      "y1": 840
+     },
+     {
+      "x0": 1030,
+      "y0": 840,
+      "y1": 1080
+     },
+     {
+      "x0": 1030,
+      "y0": 1080,
+      "y1": 1320
+     }
+    ]
+   },
+   "4": {
+    "arquivo": "/img/placa/4x-{passe}-{i}.webp",
+    "faixas": [
+     {
+      "x0": 1030,
+      "y0": 120,
+      "y1": 360
+     },
+     {
+      "x0": 1030,
+      "y0": 360,
+      "y1": 600
+     },
+     {
+      "x0": 1030,
+      "y0": 600,
+      "y1": 840
+     },
+     {
+      "x0": 1030,
+      "y0": 840,
+      "y1": 1080
+     },
+     {
+      "x0": 1030,
+      "y0": 1080,
+      "y1": 1320
+     }
+    ]
+   },
+   "8": {
+    "arquivo": "/img/placa/8x-{passe}-{i}.webp",
+    "faixas": [
+     {
+      "x0": 1030,
+      "y0": 120,
+      "y1": 360
+     },
+     {
+      "x0": 1030,
+      "y0": 360,
+      "y1": 600
+     },
+     {
+      "x0": 1030,
+      "y0": 600,
+      "y1": 840
+     },
+     {
+      "x0": 1030,
+      "y0": 840,
+      "y1": 1080
+     },
+     {
+      "x0": 1030,
+      "y0": 1080,
+      "y1": 1320
+     }
+    ]
+   }
+  }
+ },
+ "torre": {
+  "regiao": [
+   1030,
+   120,
+   1550,
+   1320
+  ],
+  "base": "/img/hero/torre-base.webp",
+  "acesa": "/img/hero/torre-acesa.webp"
+ }
+}

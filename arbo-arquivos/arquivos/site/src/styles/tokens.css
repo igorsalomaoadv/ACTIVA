@@ -1,0 +1,46 @@
+:root {
+  /* noite */
+  --ardosia: #0f1620;
+  --ardosia-2: #1a2430;
+  --ardosia-3: #243140;
+  --breu: #070b11;
+  /* luz e materiais */
+  --luz: #f3c98b;
+  --oliva: #6f7350;
+  --oliva-claro: #c3c79a;
+  --travertino: #d9cbb4;
+  --areia: #e2cfa8;
+  --creme: #f1ece3;
+  --papel: #efe9df;
+  --tinta: #12150f;
+  /* a marca, nas seções claras */
+  --branco: #ffffff;
+  --musgo: #4c5b34;
+  --musgo-escuro: #3b4728;
+  --tinta-70: rgba(18, 21, 15, 0.7);
+  --tinta-55: rgba(18, 21, 15, 0.56);
+  --tinta-12: rgba(18, 21, 15, 0.12);
+
+  --fio: rgba(241, 236, 227, 0.16);
+  --fio-forte: rgba(241, 236, 227, 0.42);
+  --vidro: rgba(12, 18, 26, 0.84);
+
+  --ff-titulo: 'Instrument Serif', Georgia, serif;
+  --ff-texto: 'Inter', system-ui, sans-serif;
+
+  --margem: clamp(16px, 3.2vw, 48px);
+  --nav-h: 76px;
+  --card-planta: 360px;
+  --raio: 24px;
+  --largura: 1160px;
+  --lado: clamp(20px, 4vw, 40px);
+
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-io: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+@media (max-width: 760px) {
+  :root {
+    --nav-h: 60px;
+  }
+}

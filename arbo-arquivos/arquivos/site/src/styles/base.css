@@ -1,0 +1,231 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  overflow-x: clip;
+  -webkit-text-size-adjust: 100%;
+  background: var(--branco);
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+html.travado,
+html.travado body {
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+  font-family: var(--ff-texto);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--tinta);
+  background: var(--branco);
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+h1,
+h2,
+h3,
+p,
+ul,
+ol,
+dl,
+dd,
+figure {
+  margin: 0;
+}
+
+ul,
+ol {
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+}
+
+/* a marca da tipografia: títulos em Inter com o destaque em Instrument Serif itálica */
+em {
+  font-family: var(--ff-titulo);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  font-size: 1.06em; /* a altura de x da serifa é menor que a da Inter */
+}
+
+.logo {
+  font-family: var(--ff-titulo);
+  font-size: 30px;
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+
+.logo--musgo {
+  color: var(--musgo);
+}
+
+.selo-secao {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1.4;
+  color: var(--tinta-55);
+}
+
+/* vidro: fundo translúcido com desfoque e um fio de luz em degradê na borda */
+.vidro {
+  --vidro-fundo: rgba(255, 255, 255, 0.04);
+  --vidro-fio: rgba(255, 255, 255, 0.42);
+  position: relative;
+  background: var(--vidro-fundo);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.vidro::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(180deg, var(--vidro-fio), transparent 38%, transparent 62%, var(--vidro-fio));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.rotulo {
+  font-family: var(--ff-texto);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  line-height: 1.4;
+}
+
+.botao {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6em;
+  height: 44px;
+  padding: 0 24px;
+  font-family: var(--ff-texto);
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  border-radius: 999px;
+  transition: background-color 0.3s var(--ease), color 0.3s var(--ease), border-color 0.3s var(--ease), transform 0.3s var(--ease);
+}
+
+.botao:hover {
+  transform: scale(1.03);
+}
+
+.botao:active {
+  transform: scale(0.98);
+}
+
+.botao--musgo {
+  background: var(--musgo);
+  color: var(--branco);
+}
+
+.botao--musgo:hover {
+  background: var(--musgo-escuro);
+}
+
+.botao--vidro {
+  background: rgba(255, 255, 255, 0.82);
+  color: var(--tinta);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.botao--vidro:hover {
+  background: var(--branco);
+}
+
+.botao--creme {
+  background: var(--creme);
+  color: var(--tinta);
+}
+
+.botao--creme:hover {
+  background: #fff;
+}
+
+.botao--fio {
+  border: 1px solid var(--fio-forte);
+  color: var(--creme);
+}
+
+.botao--fio:hover {
+  border-color: var(--creme);
+}
+
+.botao--escuro {
+  background: rgba(7, 11, 17, 0.82);
+  color: var(--creme);
+  border: 1px solid var(--fio);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.botao--escuro:hover {
+  background: var(--breu);
+  border-color: var(--fio-forte);
+}
+
+:focus-visible {
+  outline: 2px solid var(--musgo);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

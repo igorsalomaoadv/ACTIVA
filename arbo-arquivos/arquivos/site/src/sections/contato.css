@@ -1,0 +1,141 @@
+.contato {
+  max-width: calc(var(--largura) + 2 * var(--lado));
+  margin: 0 auto;
+  padding: clamp(56px, 8vw, 104px) var(--lado) clamp(72px, 10vw, 128px);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(36px, 6vw, 88px);
+  align-items: start;
+}
+
+.contato__texto .selo-secao {
+  margin-bottom: 22px;
+}
+
+.contato__texto h2 {
+  margin-bottom: 22px;
+  font-size: clamp(38px, 5.2vw, 68px);
+}
+
+.contato__texto h2 em {
+  color: var(--musgo);
+}
+
+.contato__texto > p:not(.selo-secao) {
+  max-width: 460px;
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--tinta-70);
+}
+
+.contato__texto > p.contato__tel {
+  margin-top: 26px;
+  font-family: var(--ff-titulo);
+  font-size: 34px;
+  line-height: 1;
+  color: var(--musgo);
+}
+
+.form {
+  display: grid;
+  gap: 18px;
+}
+
+.form label > span,
+.form legend {
+  display: block;
+  margin-bottom: 8px;
+  padding: 0;
+  font-size: 14px;
+  color: var(--tinta-70);
+}
+
+.form input:not([type='radio']) {
+  width: 100%;
+  height: 52px;
+  padding: 0 20px;
+  font: inherit;
+  font-size: 15px;
+  color: var(--tinta);
+  background: #f6f7f3;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  outline: none;
+  transition: border-color 0.25s, background-color 0.25s;
+}
+
+.form input:not([type='radio']):focus {
+  background: var(--branco);
+  border-color: var(--musgo);
+}
+
+.form input[aria-invalid='true'] {
+  border-color: #a4452e;
+}
+
+.form fieldset {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.form legend {
+  width: 100%;
+}
+
+.form__opcao {
+  position: relative;
+  cursor: pointer;
+}
+
+.form__opcao input {
+  position: absolute;
+  opacity: 0;
+}
+
+.form .form__opcao span {
+  display: block;
+  margin: 0;
+  padding: 11px 20px;
+  font-size: 14px;
+  color: var(--tinta);
+  border: 1px solid var(--tinta-12);
+  border-radius: 999px;
+  transition: background-color 0.25s, color 0.25s, border-color 0.25s;
+}
+
+.form .form__opcao input:checked + span {
+  color: var(--branco);
+  background: var(--musgo);
+  border-color: var(--musgo);
+}
+
+.form .form__opcao input:focus-visible + span {
+  outline: 2px solid var(--musgo);
+  outline-offset: 3px;
+}
+
+.form__enviar {
+  height: 52px;
+  margin-top: 6px;
+}
+
+.form__enviar:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.form__aviso {
+  min-height: 1.5em;
+  font-size: 14px;
+  color: var(--tinta-70);
+}
+
+@media (max-width: 860px) {
+  .contato {
+    grid-template-columns: 1fr;
+  }
+}

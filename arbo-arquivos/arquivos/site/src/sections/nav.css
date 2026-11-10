@@ -1,0 +1,138 @@
+.nav {
+  position: fixed;
+  inset: 12px 0 auto;
+  z-index: 50;
+  padding: 0 var(--margem);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  pointer-events: none; /* o vão entre as pílulas deixa a torre livre: o hover nos andares passa por ele */
+}
+
+.nav__pilula {
+  height: 56px;
+  display: flex;
+  align-items: center;
+  border-radius: 999px;
+  color: var(--creme);
+  pointer-events: auto;
+  transition: background-color 0.4s var(--ease), color 0.4s var(--ease);
+}
+
+.nav__pilula--marca {
+  gap: 16px;
+  padding: 0 26px;
+}
+
+.nav__pilula--links {
+  gap: 24px;
+  padding: 0 9px 0 26px;
+}
+
+/* nas seções brancas, o mesmo vidro em versão clara */
+.nav--clara .nav__pilula {
+  --vidro-fundo: rgba(255, 255, 255, 0.72);
+  --vidro-fio: rgba(18, 21, 15, 0.16);
+  color: var(--tinta);
+}
+
+.nav--clara .logo {
+  color: var(--musgo);
+}
+
+.nav--clara .nav__local {
+  border-left-color: var(--tinta-12);
+}
+
+.nav--clara .nav__cta {
+  background: var(--musgo);
+  color: var(--branco);
+}
+
+.nav--clara .nav__cta:hover {
+  background: var(--musgo-escuro);
+}
+
+.nav__local {
+  border-left-color: var(--tinta-12);
+}
+
+.nav--clara .nav__cta {
+  background: var(--musgo);
+  color: var(--branco);
+}
+
+.nav--clara .nav__cta:hover {
+  background: var(--musgo-escuro);
+}
+
+
+.nav__local {
+  padding-left: 16px;
+  border-left: 1px solid var(--fio-forte);
+  font-size: 12.5px;
+  opacity: 0.74;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+.nav__links {
+  display: flex;
+  gap: 22px;
+}
+
+.nav__links a {
+  font-size: 14px;
+  font-weight: 500;
+  opacity: 0.82;
+  transition: opacity 0.3s;
+}
+
+.nav__links a:hover {
+  opacity: 1;
+}
+
+.nav__cta {
+  height: 38px;
+  padding: 0 18px;
+}
+
+@media (max-width: 1020px) {
+  .nav__links {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .nav {
+    inset: 8px 0 auto;
+    padding: 0 10px;
+  }
+
+  .nav__pilula {
+    height: 46px;
+  }
+
+  .nav__pilula--marca {
+    padding: 0 18px;
+  }
+
+  .nav__pilula--links {
+    padding: 0 6px;
+  }
+
+  .logo {
+    font-size: 25px;
+  }
+
+  .nav__local {
+    display: none;
+  }
+
+  .nav__cta {
+    height: 34px;
+    padding: 0 14px;
+    font-size: 13px;
+  }
+}

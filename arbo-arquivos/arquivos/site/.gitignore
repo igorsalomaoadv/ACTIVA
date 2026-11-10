@@ -1,0 +1,10 @@
+node_modules
+dist
+.vercel
+.env*
+.DS_Store
+# renders do Blender (refeitos pelos scripts de fonte/)
+fonte/render/
+fonte/*.blend1
+fonte/predio-exemplo.blend
+__pycache__/
